@@ -82,14 +82,14 @@ const scrape = async () => {
   }
 
   idArray.forEach(id => {
-    getPlant(id);
+    getPlant(id, 'plants.txt');
   })
 
 
 }
 
-getPlant(287, 'plant3.txt');
-// scrape();
+// getPlant(287, 'plant3.txt');
+scrape();
 
 // axios.get('https://www.nearlynativenursery.com/AdvancedSearch.cfm?searchconditions=Yes').then(response => {
 //   let $ = cheerio.load(response.data);
