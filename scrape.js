@@ -3,7 +3,7 @@ const cheerio = require('cheerio');
 const fs = require('fs')
 const Plant = require('./models/Plant');
 
-const getPlant = async (id) => {
+const getPlant = async (id, file) => {
   const secondResponse = await axios.get(`https://www.nearlynativenursery.com/PlantsDetail.cfm?ID=${id}`)
   $ = cheerio.load(secondResponse.data);
 
@@ -50,12 +50,13 @@ const getPlant = async (id) => {
   let image = $('body > form:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(3) > div:nth-child(1) > img:nth-child(1)').attr('src');
   let pricesTableLength = $('body > form:nth-child(1) > table:nth-child(8) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > table:nth-child(2) tr').length;
 
+
   let prices = []
   for (let i = 0; i < pricesTableLength - 1; i++) {
     prices.push({
-      [
-        $('body > form:nth-child(1) > table:nth-child(8) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > table:nth-child(2) > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(1) > div:nth-child(1) > strong:nth-child(1)').text().trim()
-      ]: $('body > form:nth-child(1) > table:nth-child(8) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > table:nth-child(2) > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(2) > div:nth-child(1) > strong:nth-child(1)').text().trim()
+
+      quantity: $(`body > form:nth-child(1) > table:nth-child(8) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > table:nth-child(2) > tbody:nth-child(1) > tr:nth-child(${2 + i}) > td:nth-child(1) > div:nth-child(1) > strong:nth-child(1)`).text().trim(),
+      price: $(`body > form:nth-child(1) > table:nth-child(8) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > table:nth-child(2) > tbody:nth-child(1) > tr:nth-child(${2 + i}) > td:nth-child(2) > div:nth-child(1) > strong:nth-child(1)`).text().trim()
     })
   }
   const plantObj = new Plant(id, title, category, zone, commonName, variety, regionalNames, botanicalName, description, notes, soilPH, soilType, water, sunlight, foliage, image, prices)
@@ -63,7 +64,7 @@ const getPlant = async (id) => {
 
   let plantJSON = JSON.stringify(plantObj);
 
-  fs.appendFile('plant.txt', plantJSON, (err) => { console.log(err) })
+  fs.appendFile(file, plantJSON, (err) => { console.log(err) })
 }
 
 const scrape = async () => {
@@ -87,7 +88,8 @@ const scrape = async () => {
 
 }
 
-scrape();
+getPlant(287, 'plant3.txt');
+// scrape();
 
 // axios.get('https://www.nearlynativenursery.com/AdvancedSearch.cfm?searchconditions=Yes').then(response => {
 //   let $ = cheerio.load(response.data);

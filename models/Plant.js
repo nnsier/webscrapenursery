@@ -1,6 +1,6 @@
 
 
-function Plant(id, title, category, zone, commonName, variety, regionalName, botanicalName, description, notes, soilPH, soilType, water, sunlight, foliage, image, prices) {
+function Plant(id, title, category, zone, commonName, variety, regionalName, botanicalName, description, notes, soilPH, soilType, water, sunlight, foliage, image, amount) {
   this.id = id;
   this.title = title;
   this.category = category;
@@ -17,7 +17,7 @@ function Plant(id, title, category, zone, commonName, variety, regionalName, bot
   this.sunlight = sunlight;
   this.foliage = foliage;
   this.image = image;
-  this.prices = prices;
+  this.amount = amount;
 }
 
 
