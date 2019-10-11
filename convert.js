@@ -9,7 +9,7 @@ const argument = process.argv[2];
 let file;
 
 if (!argument) {
-  file = 'plantArray.js';
+  file = 'plantArray2.js';
 } else {
   file = argument;
 }
@@ -17,11 +17,9 @@ if (!argument) {
 
 const lireFile = async (file) => {
   const readFile = await fsPromises.readFile(file, { encoding: 'utf8' });
-  const plantArray = readFile.replace(/ \\n         /g, '');
-  fs.appendFile('plantArray2.js', plantArray, (err) => {
-    if (err) throw err;
-    console.log('the data was appended');
-  })
+  console.log(typeof readFile);
+  
+  // await readFile.forEach(element => console.log(element.id));
   // const plantObj = JSON.parse(readFile);
   // console.log(plantObj);
   // await Plant.create(plantObj, (err) => {
