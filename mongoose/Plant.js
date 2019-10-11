@@ -25,7 +25,8 @@ const plantSchema = new mongoose.Schema({
   foliage: [String],
   foliage: [String],
   image: String,
-  amount: [priceSchema]
+  amount: [priceSchema],
+  purchaseNotes: [String],
 })
 
 const Plant = mongoose.model('Plant', plantSchema);
